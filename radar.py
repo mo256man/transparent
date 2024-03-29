@@ -151,11 +151,11 @@ class Radar():
 				# 少しずつ減衰する円を描画する
 				alpha = self.map.ball_states[i]/self.circle_life						# アルファ値
 				circle = np.full((2*self.radius,2*self.radius,3), BLACK, np.uint8)
-				cv2.circle(circle, (x,y), r, WHITE, 2)									# 黒地に白の円
+				cv2.circle(circle, (x,y), r, WHITE, 2)									# 黒地に白の円（前景）
 				masked_screen = (1/255 * screen * (255-circle)).astype(np.uint8)		# 背景の円の部分をマスクする
 				compo_screen = cv2.addWeighted(screen, (1-alpha), circle, alpha, 0)		# 背景と前景を合成する　前景の黒地の部分も
 				masked_circle = (1/255 * compo_screen * circle).astype(np.uint8)		# 合成画像の円以外の部分をマスクする
-				screen = masked_screen + masked_circle									# 円をマスクされた背景と背景をマスクした円を合成する
+				screen = masked_screen + masked_circle									# 円をマスクした背景と背景をマスクした前景を合成する
 				self.map.ball_states[i] -= 1
 		return screen
 
